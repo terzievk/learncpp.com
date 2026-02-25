@@ -39,3 +39,12 @@
 
 # debug information files
 *.dwo
+
+# Most of my executables are named 'f'
+f
+
+# Emacs temporary files
+*~
+
+# Emacs auto-save files
+\#*\#
