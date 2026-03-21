@@ -9,3 +9,24 @@ I want to get back in the groove and I'll cover it again.
 
 Ethymology of "Foo" (Nomenclature 2.1):
     https://datatracker.ietf.org/doc/html/rfc3092
+
+Notes:
+
+    - [[maybe_unused]] attribute
+Turn off compiler warning
+```
+[[maybe_unused]] double pi { 3.14159 };  // Don't complain if pi is unused 
+```
+
+See:
+https://www.learncpp.com/cpp-tutorial/variable-assignment-and-initialization/
+
+
+    - "-I" compiler option
+Specify alternate include directory
+```
+g++ -o main -I./source/includes main.cpp
+```
+
+See:
+https://www.learncpp.com/cpp-tutorial/header-files/
