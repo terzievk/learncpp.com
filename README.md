@@ -20,7 +20,6 @@ Turn off compiler warning
 [[maybe_unused]] double pi { 3.14159 };  // Don't complain if pi is unused 
 ```
 
-See:
 https://www.learncpp.com/cpp-tutorial/variable-assignment-and-initialization/
 
 
@@ -30,5 +29,4 @@ Specify alternate include directory
 g++ -o main -I./source/includes main.cpp
 ```
 
-See:
 https://www.learncpp.com/cpp-tutorial/header-files/
