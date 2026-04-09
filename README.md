@@ -38,7 +38,7 @@ g++ -o main -I./source/includes main.cpp
 
 https://www.learncpp.com/cpp-tutorial/header-files/
 
- - &lt;cstddef&rt; header
+ - &lt;cstddef&gt; header
 
 sizeof doesn't require a header but std::size_t does. cstddef is a good minimal clutter option
 
