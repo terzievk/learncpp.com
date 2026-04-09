@@ -5,12 +5,17 @@ I want to get back in the groove and I'll cover it again.
 
 
 ## Impressions:
- - "You have to write a program once to know how you should have written it the first time." (Author's note 1.11)
+ - "You have to write a program once to know how you should have written it the
+first time." (Author's note 1.11)
 
- - "C++ is one part using what you know, and two parts looking up how to do the rest". (Second Author's note 1.11)
+ - "C++ is one part using what you know, and two parts looking up how to do the
+rest". (Second Author's note 1.11)
 
  - Ethymology of "Foo" (Nomenclature 2.1):
     https://datatracker.ietf.org/doc/html/rfc3092
+
+ - "Our stance is that it’s better to be correct than fast, and better to fail
+at compile time than runtime." (Best practice for integral types 4.6) 
 
 ## Notes:
 
@@ -32,3 +37,11 @@ g++ -o main -I./source/includes main.cpp
 ```
 
 https://www.learncpp.com/cpp-tutorial/header-files/
+
+ - <cstddef> header
+sizeof doesn't require a header but std::size_t does. cstddef is a good minimal clutter option
+
+```
+#include <cstddef>  // std::size_t
+```
+https://www.learncpp.com/cpp-tutorial/fixed-width-integers-and-size-t/
