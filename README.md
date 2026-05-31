@@ -40,7 +40,8 @@ https://www.learncpp.com/cpp-tutorial/header-files/
 
  - &lt;cstddef&gt; header
 
-sizeof doesn't require a header but std::size_t does. cstddef is a good minimal clutter option
+sizeof doesn't require a header but std::size_t does. cstddef is a good minimal
+clutter option
 
 ```
 #include <cstddef>  // std::size_t
@@ -49,7 +50,7 @@ https://www.learncpp.com/cpp-tutorial/fixed-width-integers-and-size-t/
 
  - "std::ws" input manipulator
 
-Cool way to ignoren leading whitespaces (since operator>> clears leading,
+Cool way to ignoren leading whitespaces (since operator>> clears leading
 whitespaces and std::getline() doesn't)
 ```
 std::getline(std::cin >> std::ws, name); // read a full line of text into name
