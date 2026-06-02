@@ -57,3 +57,24 @@ std::getline(std::cin >> std::ws, name); // read a full line of text into name
 ```
 https://www.learncpp.com/cpp-tutorial/introduction-to-stdstring/
 
+ - operator! implicitly converts its operand to bool
+
+which means it's a cool way to cast:
+
+instead of static_cast<bool>(foo) one can use !!foo
+```
+if (!!a != !!b != !!c) // a XOR b XOR c, for any type that can be converted to bool
+```
+https://www.learncpp.com/cpp-tutorial/logical-operators/
+
+ - alternative operator representation is a thing
+
+    operators like &&, &=, ^, ... have alternatives like "and", "and_eq", "xor"
+
+```
+std::cout << !a && (b || c);
+std::cout << not a and (b or c);
+```
+
+https://www.learncpp.com/cpp-tutorial/logical-operators/
+https://en.cppreference.com/cpp/language/operator_alternative
