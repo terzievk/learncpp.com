@@ -78,3 +78,11 @@ std::cout << not a and (b or c);
 
 https://www.learncpp.com/cpp-tutorial/logical-operators/
 https://en.cppreference.com/cpp/language/operator_alternative
+
+ - [[fallthrough]] attribute
+
+Modifies a null statement to indicate fallthrough is intentional in a switch
+```
+[[fallthrough]]; // intentional fallthrough -- note the semicolon to indicate the null statement
+```
+https://www.learncpp.com/cpp-tutorial/switch-fallthrough-and-scoping/
