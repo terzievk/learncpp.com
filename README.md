@@ -82,7 +82,17 @@ https://en.cppreference.com/cpp/language/operator_alternative
  - [[fallthrough]] attribute
 
 Modifies a null statement to indicate fallthrough is intentional in a switch
+
 ```
 [[fallthrough]]; // intentional fallthrough -- note the semicolon to indicate the null statement
 ```
 https://www.learncpp.com/cpp-tutorial/switch-fallthrough-and-scoping/
+
+ - std::common_type and std::common_type_t
+
+Return the common type of two types.
+
+```
+std::common_type_t<int, double>  // returns int
+```
+https://www.learncpp.com/cpp-tutorial/arithmetic-conversions/
