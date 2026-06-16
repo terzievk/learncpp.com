@@ -61,7 +61,7 @@ https://www.learncpp.com/cpp-tutorial/introduction-to-stdstring/
 
 which means it's a cool way to cast:
 
-instead of static_cast<bool>(foo) one can use !!foo
+instead of static_cast&lt;bool&gt;(foo) one can use !!foo
 ```
 if (!!a != !!b != !!c) // a XOR b XOR c, for any type that can be converted to bool
 ```
