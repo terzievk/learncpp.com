@@ -96,3 +96,12 @@ Return the common type of two types.
 std::common_type_t<int, double>  // returns int
 ```
 https://www.learncpp.com/cpp-tutorial/arithmetic-conversions/
+
+ - consteval trick
+Force compile time function execution without making the function consteval
+
+```
+// C++20 version per Jan Scultke (https://stackoverflow.com/a/77107431/460250)
+#define CONSTEVAL(...) [] consteval { return __VA_ARGS__; }()
+```
+https://www.learncpp.com/cpp-tutorial/constexpr-functions-part-3-and-consteval/
