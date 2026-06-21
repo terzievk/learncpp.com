@@ -98,6 +98,7 @@ std::common_type_t<int, double>  // returns int
 https://www.learncpp.com/cpp-tutorial/arithmetic-conversions/
 
  - consteval trick
+
 Force compile time function execution without making the function consteval
 
 ```
