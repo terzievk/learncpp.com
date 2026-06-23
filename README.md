@@ -106,3 +106,15 @@ Force compile time function execution without making the function consteval
 #define CONSTEVAL(...) [] consteval { return __VA_ARGS__; }()
 ```
 https://www.learncpp.com/cpp-tutorial/constexpr-functions-part-3-and-consteval/
+
+ - std::to_underlying()
+ 
+Defined in &lt;utility&gt;. Converts an enumeration to its underlying type. Equivalent to:
+
+return static_cast<std::underlying_type_t<Enum>>(e);
+
+```
+std::cout << std::to_underlying(color) << '\n'; // convert to underlying type, will print 1 (C++23)
+```
+
+https://www.learncpp.com/cpp-tutorial/scoped-enumerations-enum-classes/
