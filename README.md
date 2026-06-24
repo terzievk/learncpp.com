@@ -17,6 +17,10 @@ rest". (Second Author's note 1.11)
  - "Our stance is that it’s better to be correct than fast, and better to fail
 at compile time than runtime." (Best practice for integral types 4.6) 
 
+ - "Language designers have a philosophy: never use a small word where a big one
+will do." (Author's note 14.1)
+
+
 ## Notes:
 
  - [[maybe_unused]] attribute
