@@ -3,6 +3,7 @@
 Back in my uni days I covered the whole thing as a prep for my OOP & SDP exams.
 I want to get back in the groove and I'll cover it again.
 
+Tracking my progress and doing all the problems.
 
 ## Mini projects:
  - 15.x: Random monster generator
