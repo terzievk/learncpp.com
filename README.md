@@ -4,6 +4,9 @@ Back in my uni days I covered the whole thing as a prep for my OOP & SDP exams.
 I want to get back in the groove and I'll cover it again.
 
 
+## Mini projects:
+ - 15.x: Random monster generator
+
 ## Impressions:
  - "You have to write a program once to know how you should have written it the
 first time." (Author's note 1.11)
