@@ -71,7 +71,7 @@ namespace MonsterGenerator {
     }
   }
 
-  constexpr Monster generate() {
+  Monster generate() {
     return Monster {Monster::skeleton, getName(Random::get(0, 5)),
                     getRoar(Random::get(0, 5)), Random::get(1, 100)};
   }
