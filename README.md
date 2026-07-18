@@ -126,3 +126,14 @@ std::cout << std::to_underlying(color) << '\n'; // convert to underlying type, w
 ```
 
 https://www.learncpp.com/cpp-tutorial/scoped-enumerations-enum-classes/
+
+ - auto i{0Z}
+
+In C++23, the Z suffix can be used to define a literal of the type that
+is the signed counterpart to std::size_t (probably std::ptrdiff_t):
+
+```
+for (auto index{ 0Z }; index < static_cast<std::ptrdiff_t>(arr.size()); ++index)
+```
+
+https://www.learncpp.com/cpp-tutorial/arrays-loops-and-sign-challenge-solutions/
