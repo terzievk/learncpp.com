@@ -92,7 +92,8 @@ https://en.cppreference.com/cpp/language/operator_alternative
 Modifies a null statement to indicate fallthrough is intentional in a switch
 
 ```
-[[fallthrough]]; // intentional fallthrough -- note the semicolon to indicate the null statement
+// intentional fallthrough -- note the semicolon to indicate the null statement
+[[fallthrough]];
 ```
 https://www.learncpp.com/cpp-tutorial/switch-fallthrough-and-scoping/
 
@@ -122,7 +123,8 @@ Defined in &lt;utility&gt;. Converts an enumeration to its underlying type. Equi
 return static_cast<std::underlying_type_t<Enum>>(e);
 
 ```
-std::cout << std::to_underlying(color) << '\n'; // convert to underlying type, will print 1 (C++23)
+// convert to underlying type, will print 1 (C++23)
+std::cout << std::to_underlying(color) << '\n';
 ```
 
 https://www.learncpp.com/cpp-tutorial/scoped-enumerations-enum-classes/
