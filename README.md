@@ -7,6 +7,7 @@ Tracking my progress and doing all the problems.
 
 ## Mini projects:
  - 15.x: Random monster generator
+ - 16.x: Hangman game
 
 ## Impressions:
  - "You have to write a program once to know how you should have written it the
