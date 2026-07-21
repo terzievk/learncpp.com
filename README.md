@@ -6,8 +6,8 @@ I want to get back in the groove and I'll cover it again.
 Tracking my progress and doing all the problems.
 
 ## Mini projects:
- - 15.x: Random monster generator
- - 16.x: Hangman game
+ - 15.x: Random monster generator (1.cpp)
+ - 16.x: Hangman game (5.cpp)
 
 ## Impressions:
  - "You have to write a program once to know how you should have written it the
