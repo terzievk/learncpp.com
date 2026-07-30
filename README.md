@@ -9,6 +9,7 @@ Tracking my progress and doing all the problems.
  - 15.x: Random monster generator (1.cpp)
  - 16.x: Hangman game (5.cpp)
  - 17.x: Roscoe's potion emporium (2.cpp)
+ - 17.x: Blackjack deck (3.cpp)
 
 ## Impressions:
  - "You have to write a program once to know how you should have written it the
