@@ -40,20 +40,74 @@ public:
   std::string_view getName() const { return name; }
   int getPotion(Potion::Type p) const { return inventory[p]; }
 
-  bool buyPotion(Potion::Type p) {
-    int cost {Potion::costs[p]};
-
-    if (gold >= cost) {
-      gold -= cost;
-      ++inventory[p];
-      return true;
-    }
-
-    return false;
-  }
+  bool buyPotion(Potion::Type p);
 };
 
-void shop() {
+void printSelection();
+
+void ignoreLine();
+bool clearFailedExtraction();
+int charToInt(char c) { return c - '0'; }
+
+std::optional<Potion::Type> getPotion();
+void shop(Player& player);
+void printInventory(const Player& player);
+
+int main() {
+  std::cout << "Welcome to Roscoe's potion emporium!\n";
+  std::cout << "Enter your name: ";
+
+  std::string name;
+  std::getline(std::cin >> std::ws, name);
+
+  Player player{name};
+
+  std::cout << "Hello, "
+  << player.getName() << ", you have " << player.getGold() << " gold.\n";
+
+  shop(player);
+
+  printInventory(player);
+
+  std::cout << "\nThanks for shopping at Roscoe's potion emporium!\n";
+}
+
+// learncpp.com Ch. 9.5
+void ignoreLine() {
+  std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+}
+
+// learncpp.com Ch. 9.5
+// returns true if extraction failed, false otherwise
+bool clearFailedExtraction() {
+  if (!std::cin) {
+    if (std::cin.eof()) {    // If the stream was closed
+      std::exit(0);  // Shut down the program now
+    }
+
+    // Let's handle the failure
+    std::cin.clear();  // Put us back in 'normal' operation mode
+    ignoreLine();      // And remove the bad input
+
+    return true;
+  }
+
+  return false;
+}
+
+bool Player::buyPotion(Potion::Type p) {
+  int cost {Potion::costs[p]};
+
+  if (gold >= cost) {
+    gold -= cost;
+    ++inventory[p];
+    return true;
+  }
+
+  return false;
+}
+
+void printSelection() {
   std::cout << "Here is our selection for today:\n";
 
   for (auto p : Potion::potions) {
@@ -61,13 +115,9 @@ void shop() {
   }
 }
 
-void ignoreLine();
-bool clearFailedExtraction();
-int charToInt(char c) { return c - '0'; }
-
 std::optional<Potion::Type> getPotion() {
   std::cout << '\n';
-  shop();
+  printSelection();
 
   std::string_view message {
     "Enter the number of potion you'd like to buy, ro 'q' to quit: "};
@@ -97,18 +147,7 @@ std::optional<Potion::Type> getPotion() {
   }
 }
 
-int main() {
-  std::cout << "Welcome to Roscoe's potion emporium!\n";
-  std::cout << "Enter your name: ";
-
-  std::string name;
-  std::getline(std::cin >> std::ws, name);
-
-  Player player{name};
-
-  std::cout << "Hello, "
-  << player.getName() << ", you have " << player.getGold() << " gold.\n";
-
+void shop(Player& player) {
   auto potion {getPotion()};
   while (potion) {
     if (player.buyPotion(*potion)) {
@@ -120,7 +159,9 @@ int main() {
 
     potion = getPotion();
   }
+}
 
+void printInventory(const Player& player) {
   std::cout << "\nYour inventory contains:\n";
   for (auto p : Potion::potions) {
     int count {player.getPotion(p)};
@@ -129,29 +170,4 @@ int main() {
     }
   }
   std::cout << "You escaped with " << player.getGold() << " remaining.\n";
-
-  std::cout << "\nThanks for shopping at Roscoe's potion emporium!\n";
-}
-
-// learncpp.com Ch. 9.5
-void ignoreLine() {
-  std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-}
-
-// learncpp.com Ch. 9.5
-// returns true if extraction failed, false otherwise
-bool clearFailedExtraction() {
-  if (!std::cin) {
-    if (std::cin.eof()) {    // If the stream was closed
-      std::exit(0);  // Shut down the program now
-    }
-
-    // Let's handle the failure
-    std::cin.clear();  // Put us back in 'normal' operation mode
-    ignoreLine();      // And remove the bad input
-
-    return true;
-  }
-
-  return false;
 }
