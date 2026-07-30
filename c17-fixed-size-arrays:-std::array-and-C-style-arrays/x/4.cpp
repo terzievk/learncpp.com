@@ -118,10 +118,45 @@ void testPrint() {
   std::cout << '\n';
 }
 
-int main() {
+void testDeck() {
   Deck deck{};
   std::cout << deck.dealCard() << ' ' << deck.dealCard() << ' ' << deck.dealCard() << '\n';
 
   deck.shuffle();
   std::cout << deck.dealCard() << ' ' << deck.dealCard() << ' ' << deck.dealCard() << '\n';
+}
+
+struct Player {
+  int score{};
+
+};
+
+// return true if player wins
+bool play() {
+  Deck deck{};
+  deck.shuffle();
+
+  Player dealer{};
+  Player player{};
+
+  dealer.score += deck.dealCard().value();
+
+  player.score += deck.dealCard().value();
+  player.score += deck.dealCard().value();
+
+  std::cout << "The dealer is showing: " << dealer.score << '\n';
+  std::cout << "You have score: " << player.score << '\n';
+  return player.score >= dealer.score;
+}
+
+namespace Settings {
+  constexpr int bustValue{21};
+  constexpr int stopDrawingValue{17};
+}
+
+int main() {
+  while (play()) {
+    std::cout << "You win!\n";
+  }
+  std::cout << "You lose!\n";
 }
