@@ -1,7 +1,10 @@
-#include <condition_variable>
+#include <algorithm>
+#include <cassert>
 #include <iostream>
 #include <array>
 #include <string_view>
+
+#include "Random.h"
 
 using namespace std::string_view_literals;
 
@@ -73,7 +76,37 @@ struct Card {
   }
 };
 
-int main() {
+class Deck {
+  static constexpr int deckSize{52};
+  std::array<Card, deckSize> cards{};
+  std::array<Card, deckSize>::size_type nextCardIndex{};
+
+public:
+  Deck() {
+    auto current{0uz};
+    for (auto suit : Card::allSuits) {
+      for (auto rank : Card::allRanks) {
+        cards[current].suit = suit;
+        cards[current].rank = rank;
+        ++current;
+      }
+    }
+  }
+
+  Card dealCard() {
+    assert(nextCardIndex < deckSize && "Out of cards!");
+
+    return cards[nextCardIndex++];
+  }
+
+  void shuffle() {
+    std::shuffle(cards.begin(), cards.end(), Random::mt);
+
+    nextCardIndex = 0;
+  }
+};
+
+void testPrint() {
   // Print one card
   Card card { Card::five, Card::hearts };
   std::cout << card << '\n';
@@ -83,4 +116,12 @@ int main() {
         for (auto rank : Card::allRanks)
           std::cout << Card { rank, suit } << ' ';
   std::cout << '\n';
+}
+
+int main() {
+  Deck deck{};
+  std::cout << deck.dealCard() << ' ' << deck.dealCard() << ' ' << deck.dealCard() << '\n';
+
+  deck.shuffle();
+  std::cout << deck.dealCard() << ' ' << deck.dealCard() << ' ' << deck.dealCard() << '\n';
 }
