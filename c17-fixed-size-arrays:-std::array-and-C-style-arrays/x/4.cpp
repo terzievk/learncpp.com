@@ -2,6 +2,7 @@
 #include <cassert>
 #include <iostream>
 #include <array>
+#include <stop_token>
 #include <string_view>
 
 #include "Random.h"
@@ -126,9 +127,14 @@ void testDeck() {
   std::cout << deck.dealCard() << ' ' << deck.dealCard() << ' ' << deck.dealCard() << '\n';
 }
 
+namespace Settings {
+  constexpr int bustValue{21};
+  constexpr int stopDrawingValue{17};
+}
+
+
 struct Player {
   int score{};
-
 };
 
 // return true if player wins
@@ -146,12 +152,19 @@ bool play() {
 
   std::cout << "The dealer is showing: " << dealer.score << '\n';
   std::cout << "You have score: " << player.score << '\n';
-  return player.score >= dealer.score;
-}
 
-namespace Settings {
-  constexpr int bustValue{21};
-  constexpr int stopDrawingValue{17};
+  while (dealer.score < Settings::stopDrawingValue) {
+    Card card = deck.dealCard();
+    dealer.score += card.value();
+    std::cout << "The dealer flips a: " << card << ". They now have: " << dealer.score << '\n';
+  }
+
+  if (dealer.score > Settings::bustValue) {
+    std::cout << "The dealer went bust!\n";
+    return false;
+  }
+
+  return player.score >= dealer.score;
 }
 
 int main() {
