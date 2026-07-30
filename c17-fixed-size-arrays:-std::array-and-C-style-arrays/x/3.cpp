@@ -1,27 +1,32 @@
 #include <iostream>
-enum ranks {
-  ace,
-  two,
-  three,
-  four,
-  five,
-  six,
-  seven,
-  eight,
-  nine,
-  ten,
-  jack,
-  queen,
-  king,
-  ranks_count
-};
+struct Card {
+  enum Rank {
+    ace,
+    two,
+    three,
+    four,
+    five,
+    six,
+    seven,
+    eight,
+    nine,
+    ten,
+    jack,
+    queen,
+    king,
+    ranks_count
+  };
 
-enum suits {
-  clubs,
-  diamonds,
-  hearts,
-  spades,
-  suits_count
+  enum Suit {
+    clubs,
+    diamonds,
+    hearts,
+    spades,
+    suits_count
+  };
+
+  Rank rank{};
+  Suit suit{};
 };
 
 int main() {
