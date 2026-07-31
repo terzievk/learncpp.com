@@ -131,14 +131,12 @@ namespace Settings {
   constexpr int stopDrawingValue{17};
 }
 
-namespace State {
-  enum Type {
-    player_wins,
-    player_loses,
-    draw,
-    game_continues
-  };
-}
+enum class State {
+  player_wins,
+  player_loses,
+  draw,
+  game_continues
+};
 
 class Player {
   int score{};
@@ -215,7 +213,7 @@ char getPlayerMove() {
   }
 }
 
-State::Type playerTurn(Deck& deck, Player& player) {
+State playerTurn(Deck& deck, Player& player) {
   // player's turn
   while (true) {
     if (player.getScore() > Settings::bustValue) {
@@ -231,7 +229,7 @@ State::Type playerTurn(Deck& deck, Player& player) {
   }
 }
 
-State::Type dealerTurn(Deck& deck, Player& dealer) {
+State dealerTurn(Deck& deck, Player& dealer) {
   while (Settings::stopDrawingValue > dealer.getScore()) { // those two are swapped (see below)
     Card card{dealer.draw(deck)};
     std::cout << "The dealer flips a: " << card << ". They now have: " << dealer.getScore() << '\n';
@@ -250,7 +248,7 @@ State::Type dealerTurn(Deck& deck, Player& dealer) {
   return State::game_continues;
 }
 
-State::Type play() {
+State play() {
   Deck deck{};
   deck.shuffle();
 
