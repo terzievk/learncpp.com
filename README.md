@@ -11,6 +11,7 @@ Tracking my progress and doing all the problems.
  - 17.x: Roscoe's potion emporium (2.cpp)
  - 17.x: Blackjack deck (3.cpp)
  - 17.x: simplified Blackjack (4.cpp)
+ - 17.x: Blackjack (5.cpp)
 
 ## Impressions:
  - "You have to write a program once to know how you should have written it the
