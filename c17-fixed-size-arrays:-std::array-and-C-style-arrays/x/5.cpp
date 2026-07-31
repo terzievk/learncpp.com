@@ -140,10 +140,11 @@ namespace State {
   };
 }
 
-struct Player {
+class Player {
   int score{};
   int aceCount{};
 
+public:
   Card draw(Deck &deck) {
     Card card{deck.dealCard()};
     score += card.value();
@@ -152,6 +153,19 @@ struct Player {
     }
 
     return card;
+  }
+
+  int getScore() {
+    // simplify the logic,
+    // the while handles Ace Ten Ace regardless if it's realistic to hit
+    // basically dealer stands on soft 17
+    // and player figures it out alone
+    while (score > Settings::bustValue && aceCount > 0) {
+      score -= 10;  // Ace goes from 11 to 1
+      --aceCount;
+    }
+
+    return score;
   }
 };
 
@@ -204,7 +218,7 @@ char getPlayerMove() {
 State::Type playerTurn(Deck& deck, Player& player) {
   // player's turn
   while (true) {
-    if (player.score > Settings::bustValue) {
+    if (player.getScore() > Settings::bustValue) {
       return State::player_loses;
     }
 
@@ -212,18 +226,16 @@ State::Type playerTurn(Deck& deck, Player& player) {
       return State::game_continues;
     }
 
-    Card card = deck.dealCard();
-    player.score += card.value();
-    std::cout << "You were dealt: " << card << ". You now have: " << player.score << '\n';
+    Card card{player.draw(deck)};
+    std::cout << "You were dealt: " << card << ". You now have: " << player.getScore() << '\n';
   }
 }
 
 // return false if dealer goes bust
 State::Type dealerTurn(Deck& deck, Player& dealer) {
-  while (Settings::stopDrawingValue > dealer.score) { // those two are swapped (see below)
-    Card card = deck.dealCard();
-    dealer.score += card.value();
-    std::cout << "The dealer flips a: " << card << ". They now have: " << dealer.score << '\n';
+  while (Settings::stopDrawingValue > dealer.getScore()) { // those two are swapped (see below)
+    Card card{dealer.draw(deck)};
+    std::cout << "The dealer flips a: " << card << ". They now have: " << dealer.getScore() << '\n';
   }
   // (Settings::stopDrawingValue > dealer.score) works fine
   // but (dealer.score < Settings::stopDrawingValue) doesn't work well on cpp-ts-mode
@@ -231,7 +243,7 @@ State::Type dealerTurn(Deck& deck, Player& dealer) {
   // without type context
 
 
-  if (dealer.score > Settings::bustValue) {
+  if (dealer.getScore() > Settings::bustValue) {
     std::cout << "The dealer went bust!\n";
     return State::player_wins;
   }
@@ -253,10 +265,10 @@ State::Type play() {
   Card secondCardPlayer{player.draw(deck)};
 
   std::cout << "The dealer is showing "
-  << firstCardDealer << " (" << dealer.score << ")\n";
+  << firstCardDealer << " (" << dealer.getScore() << ")\n";
 
   std::cout << "You are showing " << firstCardPlayer
-  << ' ' << secondCardPlayer << " (" << player.score << ")\n";
+  << ' ' << secondCardPlayer << " (" << player.getScore() << ")\n";
 
   // player's turn
   switch (playerTurn(deck, player)) {
@@ -279,11 +291,11 @@ State::Type play() {
   }
 
   // neither is bust, handle result
-  if (player.score > dealer.score) {
+  if (player.getScore() > dealer.getScore()) {
     return State::player_wins;
   }
 
-  if (dealer.score > player.score) {
+  if (dealer.getScore() > player.getScore()) {
     return State::player_loses;
   }
 
