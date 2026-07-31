@@ -165,6 +165,11 @@ public:
 
     return score;
   }
+
+  bool busts() {
+    return getScore() > Settings::bustValue;
+  }
+
 };
 
 // learncpp.com Ch. 9.5
@@ -216,7 +221,7 @@ char getPlayerMove() {
 State playerTurn(Deck& deck, Player& player) {
   // player's turn
   while (true) {
-    if (player.getScore() > Settings::bustValue) {
+    if (player.busts()) {
       return State::player_loses;
     }
 
@@ -240,7 +245,7 @@ State dealerTurn(Deck& deck, Player& dealer) {
   // without type context
 
 
-  if (dealer.getScore() > Settings::bustValue) {
+  if (dealer.busts()) {
     std::cout << "The dealer went bust!\n";
     return State::player_wins;
   }
