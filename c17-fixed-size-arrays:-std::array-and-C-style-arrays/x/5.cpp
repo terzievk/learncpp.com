@@ -2,7 +2,9 @@
 #include <cassert>
 #include <iostream>
 #include <array>
+#include <stdexcept>
 #include <string_view>
+#include <text_encoding>
 
 #include "Random.h"
 
@@ -131,6 +133,14 @@ namespace Settings {
   constexpr int stopDrawingValue{17};
 }
 
+namespace State {
+  enum Type {
+    player_wins,
+    player_loses,
+    draw,
+    game_continues
+  };
+}
 
 struct Player {
   int score{};
@@ -182,16 +192,15 @@ char getPlayerMove() {
   }
 }
 
-// return false if player goes bust
-bool playerTurn(Deck& deck, Player& player) {
+State::Type playerTurn(Deck& deck, Player& player) {
   // player's turn
   while (true) {
     if (player.score > Settings::bustValue) {
-      return false;
+      return State::player_loses;
     }
 
     if (getPlayerMove() == 's') {
-      return true;
+      return State::game_continues;
     }
 
     Card card = deck.dealCard();
@@ -201,8 +210,7 @@ bool playerTurn(Deck& deck, Player& player) {
 }
 
 // return false if dealer goes bust
-bool dealerTurn(Deck& deck, Player& dealer) {
-  // dealer's turn
+State::Type dealerTurn(Deck& deck, Player& dealer) {
   while (Settings::stopDrawingValue > dealer.score) { // those two are swapped (see below)
     Card card = deck.dealCard();
     dealer.score += card.value();
@@ -216,14 +224,14 @@ bool dealerTurn(Deck& deck, Player& dealer) {
 
   if (dealer.score > Settings::bustValue) {
     std::cout << "The dealer went bust!\n";
-    return false;
+    return State::player_wins;
   }
 
-  return true;
+  return State::game_continues;
 }
 
 // return true if player wins
-bool play() {
+State::Type play() {
   Deck deck{};
   deck.shuffle();
 
@@ -238,23 +246,50 @@ bool play() {
   std::cout << "The dealer is showing: " << dealer.score << '\n';
   std::cout << "You have score: " << player.score << '\n';
 
-  // if player goes bust, dealer wins
-  if (!playerTurn(deck, player)) {
-    return false;
+  // player's turn
+  switch (playerTurn(deck, player)) {
+  case State::player_loses:
+    return State::player_loses;
+  case State::game_continues:
+    break;
+  default:
+    assert("invalid state after player's turn!");
   }
 
-  // if dealer goes bust, player wins
-  if (!dealerTurn(deck, dealer)) {
-    return true;
+  // dealer's turn
+  switch (dealerTurn(deck, dealer)) {
+  case State::player_wins:
+    return State::player_wins;
+  case State::game_continues:
+    break;
+  default:
+    assert("invalid state after player's turn!");
   }
 
-  return player.score >= dealer.score;
+  // neither is bust, handle result
+  if (player.score > dealer.score) {
+    return State::player_wins;
+  }
+
+  if (dealer.score > player.score) {
+    return State::player_loses;
+  }
+
+  return State::draw;
 }
 
 int main() {
-  if (play()) {
+  switch (play()) {
+  case State::player_wins:
     std::cout << "You win!\n";
-  } else {
+    break;
+  case State::player_loses:
     std::cout << "You lose!\n";
+    break;
+  case State::draw:
+    std::cout << "Draw!\n";
+    break;
+  default:
+    assert("Invalid state at the end of the game");
   }
 }
