@@ -2,7 +2,6 @@
 #include <cassert>
 #include <iostream>
 #include <array>
-#include <stop_token>
 #include <string_view>
 
 #include "Random.h"
@@ -137,6 +136,92 @@ struct Player {
   int score{};
 };
 
+// learncpp.com Ch. 9.5
+void ignoreLine() {
+  std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+}
+
+// learncpp.com Ch. 9.5
+// returns true if extraction failed, false otherwise
+bool clearFailedExtraction() {
+  if (!std::cin) {
+    if (std::cin.eof()) {    // If the stream was closed
+      std::exit(0);  // Shut down the program now
+    }
+
+    // Let's handle the failure
+    std::cin.clear();  // Put us back in 'normal' operation mode
+    ignoreLine();      // And remove the bad input
+
+    return true;
+  }
+
+  return false;
+}
+
+char getPlayerMove() {
+  std::string_view message {
+    "(h) to hit, or (s) to stand: "};
+
+  while (true) {
+    std::cout << message;
+    message = "That is invalid input. Try again: ";
+
+    char c{};
+    std::cin >> c;
+
+    if (clearFailedExtraction()) {
+      continue;
+    }
+
+    ignoreLine(); // Remove any extraneous input
+
+    if (c == 'h' || c == 's') {
+      return c;
+    }
+  }
+}
+
+// return false if player goes bust
+bool playerTurn(Deck& deck, Player& player) {
+  // player's turn
+  while (true) {
+    if (player.score > Settings::bustValue) {
+      return false;
+    }
+
+    if (getPlayerMove() == 's') {
+      return true;
+    }
+
+    Card card = deck.dealCard();
+    player.score += card.value();
+    std::cout << "You were dealt: " << card << ". You now have: " << player.score << '\n';
+  }
+}
+
+// return false if dealer goes bust
+bool dealerTurn(Deck& deck, Player& dealer) {
+  // dealer's turn
+  while (Settings::stopDrawingValue > dealer.score) { // those two are swapped (see below)
+    Card card = deck.dealCard();
+    dealer.score += card.value();
+    std::cout << "The dealer flips a: " << card << ". They now have: " << dealer.score << '\n';
+  }
+  // (Settings::stopDrawingValue > dealer.score) works fine
+  // but (dealer.score < Settings::stopDrawingValue) doesn't work well on cpp-ts-mode
+  // because ts-mode messes up the parsing since c++ can be ambiguous
+  // without type context
+
+
+  if (dealer.score > Settings::bustValue) {
+    std::cout << "The dealer went bust!\n";
+    return false;
+  }
+
+  return true;
+}
+
 // return true if player wins
 bool play() {
   Deck deck{};
@@ -153,23 +238,23 @@ bool play() {
   std::cout << "The dealer is showing: " << dealer.score << '\n';
   std::cout << "You have score: " << player.score << '\n';
 
-  while (dealer.score < Settings::stopDrawingValue) {
-    Card card = deck.dealCard();
-    dealer.score += card.value();
-    std::cout << "The dealer flips a: " << card << ". They now have: " << dealer.score << '\n';
+  // if player goes bust, dealer wins
+  if (!playerTurn(deck, player)) {
+    return false;
   }
 
-  if (dealer.score > Settings::bustValue) {
-    std::cout << "The dealer went bust!\n";
-    return false;
+  // if dealer goes bust, player wins
+  if (!dealerTurn(deck, dealer)) {
+    return true;
   }
 
   return player.score >= dealer.score;
 }
 
 int main() {
-  while (play()) {
+  if (play()) {
     std::cout << "You win!\n";
+  } else {
+    std::cout << "You lose!\n";
   }
-  std::cout << "You lose!\n";
 }
