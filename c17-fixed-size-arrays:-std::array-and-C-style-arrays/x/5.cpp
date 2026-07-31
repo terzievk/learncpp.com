@@ -2,9 +2,7 @@
 #include <cassert>
 #include <iostream>
 #include <array>
-#include <stdexcept>
 #include <string_view>
-#include <text_encoding>
 
 #include "Random.h"
 
@@ -144,6 +142,17 @@ namespace State {
 
 struct Player {
   int score{};
+  int aceCount{};
+
+  Card draw(Deck &deck) {
+    Card card{deck.dealCard()};
+    score += card.value();
+    if (card.rank == Card::ace) {
+      ++aceCount;
+    }
+
+    return card;
+  }
 };
 
 // learncpp.com Ch. 9.5
@@ -238,13 +247,16 @@ State::Type play() {
   Player dealer{};
   Player player{};
 
-  dealer.score += deck.dealCard().value();
+  Card firstCardDealer{dealer.draw(deck)};
 
-  player.score += deck.dealCard().value();
-  player.score += deck.dealCard().value();
+  Card firstCardPlayer{player.draw(deck)};
+  Card secondCardPlayer{player.draw(deck)};
 
-  std::cout << "The dealer is showing: " << dealer.score << '\n';
-  std::cout << "You have score: " << player.score << '\n';
+  std::cout << "The dealer is showing "
+  << firstCardDealer << " (" << dealer.score << ")\n";
+
+  std::cout << "You are showing " << firstCardPlayer
+  << ' ' << secondCardPlayer << " (" << player.score << ")\n";
 
   // player's turn
   switch (playerTurn(deck, player)) {
