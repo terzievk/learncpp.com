@@ -231,7 +231,6 @@ State::Type playerTurn(Deck& deck, Player& player) {
   }
 }
 
-// return false if dealer goes bust
 State::Type dealerTurn(Deck& deck, Player& dealer) {
   while (Settings::stopDrawingValue > dealer.getScore()) { // those two are swapped (see below)
     Card card{dealer.draw(deck)};
@@ -251,7 +250,6 @@ State::Type dealerTurn(Deck& deck, Player& dealer) {
   return State::game_continues;
 }
 
-// return true if player wins
 State::Type play() {
   Deck deck{};
   deck.shuffle();
