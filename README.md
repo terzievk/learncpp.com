@@ -31,9 +31,10 @@ will do." (Author's note 14.1)
 
  - two methods of parsing declarations (Tip 20.1)
 
-Question we ask ourselves: What is `signal'?
 
 ```
+Question we ask ourselves: What is `signal'?
+
                       +-----------------------------+
                       |                  +---+      |
                       |  +---+           |+-+|      |
