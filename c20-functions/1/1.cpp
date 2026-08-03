@@ -1,5 +1,6 @@
 #include <cassert>
 #include <cstdlib> // for std::exit
+#include <functional>
 #include <ios>
 #include <iostream>
 #include <limits> // for std::numeric_limits
@@ -27,6 +28,20 @@ int multiply(int x, int y) {
 int divide(int x, int y) {
   assert(y != 0 && "Can't divide by zero!");
   return x / y;
+}
+
+using ArithmeticFunction = std::function<int (int, int)>;
+
+ArithmeticFunction getArithmeticFunction(char op) {
+  switch (op) {
+  case '+': return add;
+  case '-': return subtract;
+  case '*': return multiply;
+  case '/': return divide;
+  default:
+    assert("Invalid operation!");
+    return nullptr;
+  }
 }
 
 int main() {
