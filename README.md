@@ -6,19 +6,21 @@ I want to get back in the groove and I'll cover it again.
 Tracking my progress and doing all the problems.
 
 ## Mini projects:
- - 15.x: Random monster generator (1.cpp)
- - 16.x: Hangman game (5.cpp)
- - 17.x: Roscoe's potion emporium (2.cpp)
- - 17.x: Blackjack deck (3.cpp)
- - 17.x: simplified Blackjack (4.cpp)
- - 17.x: Blackjack (5.cpp)
+```
+ - 15.x: Random monster generator  (1.cpp)
+ - 16.x: Hangman game              (5.cpp)
+ - 17.x: Roscoe's potion emporium  (2.cpp)
+ - 17.x: Blackjack deck            (3.cpp)
+ - 17.x: simplified Blackjack      (4.cpp)
+ - 17.x: Blackjack                 (5.cpp)
+```
 
 ## Impressions:
  - "You have to write a program once to know how you should have written it the
 first time." (Author's note 1.11)
 
  - "C++ is one part using what you know, and two parts looking up how to do the
-rest". (Second Author's note 1.11)
+rest." (Second Author's note 1.11)
 
  - Ethymology of "Foo" (Nomenclature 2.1):
     https://datatracker.ietf.org/doc/html/rfc3092
@@ -29,7 +31,7 @@ at compile time than runtime." (Best practice for integral types 4.6)
  - "Language designers have a philosophy: never use a small word where a big one
 will do." (Author's note 14.1)
 
- - two methods for parsing declarations (Tip 20.1)
+ - two methods for parsing declarations (Tip 20.1):
 
 
 ```
