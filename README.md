@@ -7,12 +7,13 @@ Tracking my progress and doing all the problems.
 
 ## Mini projects:
 ```
- - 15.x: Random monster generator  (1.cpp)
- - 16.x: Hangman game              (5.cpp)
- - 17.x: Roscoe's potion emporium  (2.cpp)
- - 17.x: Blackjack deck            (3.cpp)
- - 17.x: simplified Blackjack      (4.cpp)
- - 17.x: Blackjack                 (5.cpp)
+ - 15.x: Random monster generator     (1.cpp)
+ - 16.x: Hangman game                 (5.cpp)
+ - 17.x: Roscoe's potion emporium     (2.cpp)
+ - 17.x: Blackjack deck               (3.cpp)
+ - 17.x: simplified Blackjack         (4.cpp)
+ - 17.x: Blackjack                    (5.cpp)
+ - 20.1: Calc with function pointers  (1.cpp)
 ```
 
 ## Impressions:
