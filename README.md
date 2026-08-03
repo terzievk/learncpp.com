@@ -29,6 +29,26 @@ at compile time than runtime." (Best practice for integral types 4.6)
  - "Language designers have a philosophy: never use a small word where a big one
 will do." (Author's note 14.1)
 
+ - two methods of parsing declarations (Tip 20.1)
+
+Question we ask ourselves: What is `signal'?
+
+```
+                      +-----------------------------+
+                      |                  +---+      |
+                      |  +---+           |+-+|      |
+                      |  ^   |           |^ ||      |
+                void (*signal(int, void (*fp)(int)))(int);
+                 ^    ^      |      ^    ^  ||      |
+                 |    +------+      |    +--+|      |
+                 |                  +--------+      |
+                 +----------------------------------+
+```
+
+https://c-faq.com/decl/spiral.anderson.html
+
+https://web.archive.org/web/20110818081319/http://ieng9.ucsd.edu/~cs30x/rt_lt.rule.html
+
 
 ## Notes:
 
