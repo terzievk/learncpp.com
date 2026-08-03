@@ -1,9 +1,44 @@
+#include <cassert>
 #include <cstdlib> // for std::exit
 #include <ios>
 #include <iostream>
 #include <limits> // for std::numeric_limits
 
 // input validation is based on learncpp.com Ch. 9.5
+
+void ignoreLine();
+// returns true if extraction failed, false otherwise
+bool clearFailedExtraction();
+int getInt();
+char getOperator();
+
+int add(int x, int y) {
+  return x + y;
+}
+
+int subtract(int x, int y) {
+  return x - y;
+}
+
+int multiply(int x, int y) {
+  return x * y;
+}
+
+int divide(int x, int y) {
+  assert(y != 0 && "Can't divide by zero!");
+  return x / y;
+}
+
+int main() {
+  int x{ getInt() };
+  char operation{ getOperator() };
+  int y{ getInt() };
+
+  std::cout << "x: " << x << '\n';
+  std::cout << "operation: " << operation << '\n';
+  std::cout << "y: " << y << '\n';
+  return 0;
+}
 
 void ignoreLine() {
   std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -64,16 +99,4 @@ char getOperator() {
         std::cout << "Oops, that input is invalid.  Please try again.\n";
       }
   }
-}
-
-
-int main() {
-  int x{ getInt() };
-  char operation{ getOperator() };
-  int y{ getInt() };
-
-  std::cout << "x: " << x << '\n';
-  std::cout << "operation: " << operation << '\n';
-  std::cout << "y: " << y << '\n';
-  return 0;
 }
