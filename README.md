@@ -29,7 +29,7 @@ at compile time than runtime." (Best practice for integral types 4.6)
  - "Language designers have a philosophy: never use a small word where a big one
 will do." (Author's note 14.1)
 
- - two methods of parsing declarations (Tip 20.1)
+ - two methods for parsing declarations (Tip 20.1)
 
 
 ```
