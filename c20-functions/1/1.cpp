@@ -5,53 +5,33 @@
 #include <iostream>
 #include <limits> // for std::numeric_limits
 
+// mini calculator implemented with function pointers
+
 // input validation is based on learncpp.com Ch. 9.5
 
-void ignoreLine();
-// returns true if extraction failed, false otherwise
-bool clearFailedExtraction();
 int getInt();
 char getOperator();
 
-int add(int x, int y) {
-  return x + y;
-}
-
-int subtract(int x, int y) {
-  return x - y;
-}
-
-int multiply(int x, int y) {
-  return x * y;
-}
-
-int divide(int x, int y) {
-  assert(y != 0 && "Can't divide by zero!");
-  return x / y;
-}
+int add(int x, int y);
+int subtract(int x, int y);
+int multiply(int x, int y);
+int divide(int x, int y);
 
 using ArithmeticFunction = std::function<int (int, int)>;
-
-ArithmeticFunction getArithmeticFunction(char op) {
-  switch (op) {
-  case '+': return add;
-  case '-': return subtract;
-  case '*': return multiply;
-  case '/': return divide;
-  default:
-    assert("Invalid operation!");
-    return nullptr;
-  }
-}
+ArithmeticFunction getArithmeticFunction(char op);
 
 int main() {
   int x{ getInt() };
   char operation{ getOperator() };
   int y{ getInt() };
 
-  std::cout << "x: " << x << '\n';
-  std::cout << "operation: " << operation << '\n';
-  std::cout << "y: " << y << '\n';
+  // std::cout << "x: " << x << '\n';
+  // std::cout << "operation: " << operation << '\n';
+  // std::cout << "y: " << y << '\n';
+
+  std::cout << x << ' ' << operation << ' ' <<  y << " = "
+  << getArithmeticFunction(operation)(x, y) << '\n';
+
   return 0;
 }
 
@@ -113,5 +93,34 @@ char getOperator() {
       default: // Otherwise tell the user what went wrong
         std::cout << "Oops, that input is invalid.  Please try again.\n";
       }
+  }
+}
+
+int add(int x, int y) {
+  return x + y;
+}
+
+int subtract(int x, int y) {
+  return x - y;
+}
+
+int multiply(int x, int y) {
+  return x * y;
+}
+
+int divide(int x, int y) {
+  assert(y != 0 && "Can't divide by zero!");
+  return x / y;
+}
+
+ArithmeticFunction getArithmeticFunction(char op) {
+  switch (op) {
+  case '+': return add;
+  case '-': return subtract;
+  case '*': return multiply;
+  case '/': return divide;
+  default:
+    assert("Invalid operation!");
+    return nullptr;
   }
 }
