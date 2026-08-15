@@ -14,6 +14,7 @@ Tracking my progress and doing all the problems.
  - 17.x: simplified Blackjack         (4.cpp)
  - 17.x: Blackjack                    (5.cpp)
  - 20.1: Calc with function pointers  (1.cpp)
+ - 20.7: Square numbers guess game    (3.cpp)
 ```
 
 ## Impressions:
