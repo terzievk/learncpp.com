@@ -18,7 +18,7 @@ int main() {
 
   int count {getInt("How many? ")};
   while (count <= 0) {
-    std::cout << "Count should be positive.\n";
+    std::cout << "Count must be positive.\n";
     count = getInt( "How many? ");
   }
 
