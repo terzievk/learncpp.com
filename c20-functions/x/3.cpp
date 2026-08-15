@@ -7,32 +7,27 @@
 // max is the index of the upper bounds of the array we're searching.
 // binarySearch() should return the index of the target element if the target is found, -1 otherwise
 int binarySearch(const int* array, int target, int min, int max) {
-  while (true) {
-    //    std::cout << "min: " << min << '\n';
-    //    std::cout << "max: " << max << '\n';
-
-    if (max - min <= 1) {
-      if (array[min] == target) {
-        return min;
-      }
-      if (array[max] == target) {
-        return max;
-      }
-
-      return -1;
+  if (max - min <= 1) {
+    if (array[min] == target) {
+      return min;
+    }
+    if (array[max] == target) {
+      return max;
     }
 
-    int mid{min + (max - min) / 2};
+    return -1;
+  }
 
-    if (array[mid] == target) {
-      return mid;
-    }
+  int mid{min + (max - min) / 2};
 
-    if (array[mid] < target) {
-      min = mid;
-    } else {
-      max = mid;
-    }
+  if (array[mid] == target) {
+    return mid;
+  }
+
+  if (array[mid] < target) {
+    return binarySearch(array, target, mid, max);
+  } else {
+    return binarySearch(array, target, min, mid);
   }
 
   return -1;
@@ -66,4 +61,36 @@ int main() {
     }
 
   return 0;
+}
+
+int binarySearchIterative(const int* array, int target, int min, int max) {
+  while (true) {
+    //    std::cout << "min: " << min << '\n';
+    //    std::cout << "max: " << max << '\n';
+
+    if (max - min <= 1) {
+      if (array[min] == target) {
+        return min;
+      }
+      if (array[max] == target) {
+        return max;
+      }
+
+      return -1;
+    }
+
+    int mid{min + (max - min) / 2};
+
+    if (array[mid] == target) {
+      return mid;
+    }
+
+    if (array[mid] < target) {
+      min = mid;
+    } else {
+      max = mid;
+    }
+  }
+
+  return -1;
 }
