@@ -10,7 +10,6 @@
 int getInt(std::string_view greeting);
 void generateValues(int start, int count, int multiplier, std::vector<int>& values);
 void printValues(const std::vector<int> &values);
-int getNearest(int guess, const std::vector<int>& values);
 void play(std::vector<int>& values);
 
 int main() {
