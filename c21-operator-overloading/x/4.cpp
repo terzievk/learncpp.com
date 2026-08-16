@@ -1,19 +1,69 @@
+#include <cassert>
 #include <iostream>
+#include <ranges>
 
 #pragma pack(1)
 
-class Test {
-  int8_t y{};
-  int16_t x{};
+class FixedPoint2 {
+  int8_t fractional{};
+  int16_t whole{};
+
+public:
+  FixedPoint2(int16_t whole, int8_t fractional);
+
+  FixedPoint2(const FixedPoint2 &) = delete;
+  FixedPoint2& operator=(const FixedPoint2 &) = delete;
+
+  explicit operator double() const;
+
+  friend std::ostream &operator<<(std::ostream &out, const FixedPoint2 &point);
 };
 
 int main() {
-  std::cout << sizeof(double) << '\n';
-  std::cout << sizeof(float) << '\n';
-  std::cout << sizeof(int) << '\n';
-  std::cout << sizeof(int32_t) << '\n';
-  std::cout << sizeof(int16_t) << '\n';
-  std::cout << sizeof(int8_t) << '\n';
-  std::cout << (1 << 15) << '\n';
-  std::cout << sizeof(Test) << '\n';
+  FixedPoint2 a{ 34, 56 };
+  std::cout << a << '\n';
+  std::cout << static_cast<double>(a) << '\n';
+  assert(static_cast<double>(a) == 34.56);
+
+  FixedPoint2 b{ -2, 8 };
+  assert(static_cast<double>(b) == -2.08);
+
+  FixedPoint2 c{ 2, -8 };
+  assert(static_cast<double>(c) == -2.08);
+
+  FixedPoint2 d{ -2, -8 };
+  assert(static_cast<double>(d) == -2.08);
+
+  FixedPoint2 e{ 0, -5 };
+  assert(static_cast<double>(e) == -0.05);
+
+  FixedPoint2 f{ 0, 10 };
+  assert(static_cast<double>(f) == 0.1);
+
+  return 0;
+}
+
+FixedPoint2::FixedPoint2(int16_t whole, int8_t fractional)
+: fractional{fractional}, whole{whole} {
+
+  // keep the sign in the whole part
+  // so it's easier to print
+  if (fractional < 0) {
+    fractional -= fractional;
+    if (whole > 0) {
+      whole -= whole;
+    }
+  }
+}
+
+FixedPoint2::operator double() const {
+  double result{};
+  result += whole;
+  result += (fractional / 100.0);
+
+  return result;
+}
+
+std::ostream& operator<<(std::ostream &out, const FixedPoint2 &point) {
+  return out << static_cast<double>(point);
 }
