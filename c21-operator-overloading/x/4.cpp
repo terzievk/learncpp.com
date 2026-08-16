@@ -1,5 +1,6 @@
 #include <cassert>
 #include <iostream>
+#include <pthread.h>
 #include <ranges>
 
 #pragma pack(1)
@@ -44,24 +45,14 @@ int main() {
 }
 
 FixedPoint2::FixedPoint2(int16_t whole, int8_t fractional)
-: fractional{fractional}, whole{whole} {
-
-  // keep the sign in the whole part
-  // so it's easier to print
-  if (fractional < 0) {
-    fractional -= fractional;
-    if (whole > 0) {
-      whole -= whole;
-    }
-  }
-}
+: fractional{fractional}, whole{whole} {}
 
 FixedPoint2::operator double() const {
-  double result{};
-  result += whole;
-  result += (fractional / 100.0);
+  if (whole < 0 || fractional < 0) {
+    return - ( std::abs(whole) + std::abs(fractional / 100.0) );
+  }
 
-  return result;
+  return whole + fractional / 100.0;
 }
 
 std::ostream& operator<<(std::ostream &out, const FixedPoint2 &point) {
