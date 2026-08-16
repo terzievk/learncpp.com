@@ -11,6 +11,7 @@ class FixedPoint2 {
   int16_t whole{};
 
 public:
+  explicit FixedPoint2(double x);
   FixedPoint2(int16_t whole, int8_t fractional);
 
   FixedPoint2(const FixedPoint2 &) = delete;
@@ -35,26 +36,58 @@ bool testDecimal(const FixedPoint2 &fp) {
 }
 
 int main() {
-  FixedPoint2 a{ 1, 104 };
-  std::cout << a << '\n';
-  std::cout << static_cast<double>(a) << '\n';
-  assert(static_cast<double>(a) == 2.04);
-  assert(testDecimal(a));
+  FixedPoint2 a{ 0.01 };
+  assert(static_cast<double>(a) == 0.01);
 
-  FixedPoint2 b{ 1, -104 };
-  assert(static_cast<double>(b) == -2.04);
-  assert(testDecimal(b));
+  FixedPoint2 b{ -0.01 };
+  assert(static_cast<double>(b) == -0.01);
 
-  FixedPoint2 c{ -1, 104 };
-  assert(static_cast<double>(c) == -2.04);
-  assert(testDecimal(c));
+  FixedPoint2 c{ 1.9 }; // make sure we handle single digit decimal
+  assert(static_cast<double>(c) == 1.9);
 
-  FixedPoint2 d{ -1, -104 };
-  assert(static_cast<double>(d) == -2.04);
-  assert(testDecimal(d));
+  FixedPoint2 d{ 5.01 }; // stored as 5.0099999... so we'll need to round this
+  assert(static_cast<double>(d) == 5.01);
+
+  FixedPoint2 e{ -5.01 }; // stored as -5.0099999... so we'll need to round this
+  assert(static_cast<double>(e) == -5.01);
+
+  // Handle case where the argument's decimal rounds to 100 (need to increase base by 1)
+  FixedPoint2 f { 106.9978 }; // should be stored with base 107 and decimal 0
+  assert(static_cast<double>(f) == 107.0);
+
+  // Handle case where the argument's decimal rounds to -100 (need to decrease base by 1)
+  FixedPoint2 g { -106.9978 }; // should be stored with base -107 and decimal 0
+  assert(static_cast<double>(g) == -107.0);
 
   return 0;
 }
+FixedPoint2::FixedPoint2(double x) {
+  bool negative{};
+  if (x < 0) {
+    negative = true;
+    x = -x;
+  }
+
+
+  whole = static_cast<int16_t>(x);
+  // fraction
+  double f{x - whole};
+  f *= 100;
+  // fraction's fraction
+  double ff{f - static_cast<int>(f)};
+
+  fractional = static_cast<int8_t>(static_cast<int8_t>(f) + (ff > 0.5 ? 1 : 0));
+
+  if (negative) {
+    whole = -whole;
+    fractional = -fractional;
+  }
+
+  whole += fractional / 100;
+  fractional %= 100;
+
+}
+
 
 FixedPoint2::FixedPoint2(int16_t whole, int8_t fractional)
 : fractional{fractional}, whole{whole} {
@@ -68,6 +101,7 @@ FixedPoint2::FixedPoint2(int16_t whole, int8_t fractional)
   this->whole += this->fractional / 100;
   this->fractional %= 100;
 }
+
 
 FixedPoint2::operator double() const {
   return whole + fractional / 100.0;
