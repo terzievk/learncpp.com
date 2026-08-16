@@ -1,8 +1,6 @@
 #include <cassert>
-#include <cstdio>
 #include <iostream>
 #include <pthread.h>
-#include <ranges>
 
 #pragma pack(1)
 
@@ -14,60 +12,57 @@ public:
   explicit FixedPoint2(double x);
   FixedPoint2(int16_t whole, int8_t fractional);
 
-  FixedPoint2(const FixedPoint2 &) = delete;
-  FixedPoint2& operator=(const FixedPoint2 &) = delete;
-
   explicit operator double() const;
 
+  FixedPoint2 operator-();
+
   friend std::ostream &operator<<(std::ostream &out, const FixedPoint2 &point);
+  friend std::istream &operator>>(std::istream &in, FixedPoint2 &point);
+  friend bool operator==(const FixedPoint2 &a, const FixedPoint2 &b);
+  friend FixedPoint2 operator+(const FixedPoint2 &a, const FixedPoint2 &b);
+
   friend bool testDecimal(const FixedPoint2 &fp);
 };
-#include <cassert>
-#include <iostream>
-
-// You will need to make testDecimal a friend of FixedPoint2
-// so the function can access the private members of FixedPoint2
-bool testDecimal(const FixedPoint2 &fp) {
-  if (fp.whole >= 0) {
-    return fp.fractional >= 0 && fp.fractional < 100;
-  } else {
-    return fp.fractional <= 0 && fp.fractional > -100;
-  }
-}
 
 int main() {
-  FixedPoint2 a{ 0.01 };
-  assert(static_cast<double>(a) == 0.01);
+  assert(FixedPoint2{ 0.75 } == FixedPoint2{ 0.75 });    // Test equality true
+  assert(!(FixedPoint2{ 0.75 } == FixedPoint2{ 0.76 })); // Test equality false
 
-  FixedPoint2 b{ -0.01 };
-  assert(static_cast<double>(b) == -0.01);
+  // Test additional cases -- h/t to reader Sharjeel Safdar for these test cases
 
-  FixedPoint2 c{ 1.9 }; // make sure we handle single digit decimal
-  assert(static_cast<double>(c) == 1.9);
+  // both positive, no decimal overflow
+  assert(FixedPoint2{ 0.75 } + FixedPoint2{ 1.23 } == FixedPoint2{ 1.98 });
+  // both positive, with decimal overflow
+  assert(FixedPoint2{ 0.75 } + FixedPoint2{ 1.50 } == FixedPoint2{ 2.25 });
+  // both negative, no decimal overflow
+  assert(FixedPoint2{ -0.75 } + FixedPoint2{ -1.23 } == FixedPoint2{ -1.98 });
+  // both negative, with decimal overflow
+  assert(FixedPoint2{ -0.75 } + FixedPoint2{ -1.50 } == FixedPoint2{ -2.25 });
+  // second negative, no decimal overflow
+  assert(FixedPoint2{ 0.75 } + FixedPoint2{ -1.23 } == FixedPoint2{ -0.48 });
+  // second negative, possible decimal overflow
+  assert(FixedPoint2{ 0.75 } + FixedPoint2{ -1.50 } == FixedPoint2{ -0.75 });
+  // first negative, no decimal overflow
+  assert(FixedPoint2{ -0.75 } + FixedPoint2{ 1.23 } == FixedPoint2{ 0.48 });
+  // first negative, possible decimal overflow
+  assert(FixedPoint2{ -0.75 } + FixedPoint2{ 1.50 } == FixedPoint2{ 0.75 });
 
-  FixedPoint2 d{ 5.01 }; // stored as 5.0099999... so we'll need to round this
-  assert(static_cast<double>(d) == 5.01);
+  FixedPoint2 a{ -0.48 };
+  assert(static_cast<double>(a) == -0.48);
+  assert(static_cast<double>(-a) == 0.48);
 
-  FixedPoint2 e{ -5.01 }; // stored as -5.0099999... so we'll need to round this
-  assert(static_cast<double>(e) == -5.01);
-
-  // Handle case where the argument's decimal rounds to 100 (need to increase base by 1)
-  FixedPoint2 f { 106.9978 }; // should be stored with base 107 and decimal 0
-  assert(static_cast<double>(f) == 107.0);
-
-  // Handle case where the argument's decimal rounds to -100 (need to decrease base by 1)
-  FixedPoint2 g { -106.9978 }; // should be stored with base -107 and decimal 0
-  assert(static_cast<double>(g) == -107.0);
-
-  return 0;
+  std::cout << "Enter a number: "; // enter 5.678
+  std::cin >> a;
+  std::cout << "You entered: " << a << '\n';
+  assert(static_cast<double>(a) == 5.68);
 }
+
 FixedPoint2::FixedPoint2(double x) {
   bool negative{};
   if (x < 0) {
     negative = true;
     x = -x;
   }
-
 
   whole = static_cast<int16_t>(x);
   // fraction
@@ -85,9 +80,7 @@ FixedPoint2::FixedPoint2(double x) {
 
   whole += fractional / 100;
   fractional %= 100;
-
 }
-
 
 FixedPoint2::FixedPoint2(int16_t whole, int8_t fractional)
 : fractional{fractional}, whole{whole} {
@@ -102,11 +95,39 @@ FixedPoint2::FixedPoint2(int16_t whole, int8_t fractional)
   this->fractional %= 100;
 }
 
-
 FixedPoint2::operator double() const {
   return whole + fractional / 100.0;
 }
 
 std::ostream& operator<<(std::ostream &out, const FixedPoint2 &point) {
   return out << static_cast<double>(point);
+}
+
+std::istream &operator>>(std::istream &in, FixedPoint2 &point) {
+  double x{};
+  in >> x;
+  point = FixedPoint2 {x};
+  return in;
+}
+
+bool operator==(const FixedPoint2 &a, const FixedPoint2 &b) {
+  return a.fractional == b.fractional && a.whole == b.whole;
+}
+
+FixedPoint2 operator+(const FixedPoint2 &a, const FixedPoint2 &b) {
+  return FixedPoint2{static_cast<double>(a) + static_cast<double>(b)};
+}
+
+FixedPoint2 FixedPoint2::operator-() {
+  return FixedPoint2{-static_cast<double>(*this)};
+}
+
+// You will need to make testDecimal a friend of FixedPoint2
+// so the function can access the private members of FixedPoint2
+bool testDecimal(const FixedPoint2 &fp) {
+  if (fp.whole >= 0) {
+    return fp.fractional >= 0 && fp.fractional < 100;
+  } else {
+    return fp.fractional <= 0 && fp.fractional > -100;
+  }
 }
