@@ -45,13 +45,15 @@ int main() {
 }
 
 FixedPoint2::FixedPoint2(int16_t whole, int8_t fractional)
-: fractional{fractional}, whole{whole} {}
+: fractional{fractional}, whole{whole} {
+  // if the numbers is negative, make both whole and fractional parts negative
+  if (whole < 0 || fractional < 0) {
+    if (whole > 0) { this->whole = -whole; }
+    if (fractional > 0) { this->fractional = -fractional; }
+  }
+}
 
 FixedPoint2::operator double() const {
-  if (whole < 0 || fractional < 0) {
-    return - ( std::abs(whole) + std::abs(fractional / 100.0) );
-  }
-
   return whole + fractional / 100.0;
 }
 
