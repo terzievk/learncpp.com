@@ -26,3 +26,37 @@ std::ostream& operator<<(std::ostream& out, const Board& b) {
   }
   return out;
 }
+
+bool Board::isValidPoint(const Point& p) {
+  size_t x{p.getX()};
+  size_t y{p.getY()};
+  return x < gridSize && y < gridSize;
+}
+
+Point Board::findEmpty() {
+  for (auto i{0uz}; i < gridSize; ++i) {
+    for (auto j{0uz}; j < gridSize; ++j) {
+      if (tiles[i][j].isEmpty()) {
+        return Point{i, j};
+      }
+    }
+  }
+  assert("There must be an empty Tile");
+  exit(1);
+}
+
+void Board::swapTiles(const Point& p, const Point& q) {
+  std::swap(tiles[p.getX()][p.getY()], tiles[q.getX()][q.getY()]);
+}
+
+bool Board::moveTile(Direction direction) {
+  Point empty{findEmpty()};
+  Point adj{empty.getAdjacentPoint(-direction)};
+
+  if (isValidPoint(adj)) {
+    swapTiles(empty, adj);
+    return true;
+  }
+
+  return false;
+}

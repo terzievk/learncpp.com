@@ -23,6 +23,8 @@ class Direction {
 
   Direction operator-();
 
+  Direction::Type getDirection() const { return direction; }
+
   static Direction getRandom();
 
   friend std::ostream& operator<<(std::ostream& out, const Direction& d);

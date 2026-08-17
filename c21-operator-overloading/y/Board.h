@@ -1,6 +1,7 @@
 #ifndef BOARD_H_
 #define BOARD_H_
 
+#include <cassert>
 #include <iostream>
 
 #include "Point.h"
@@ -15,19 +16,12 @@ class Board {
  public:
   Board();
 
-  bool isValidPoint(const Point& p) {
-    size_t x{p.getX()};
-    size_t y{p.getY()};
-    return x < gridSize && y < gridSize;
-  }
+  bool isValidPoint(const Point& p);
+  Point findEmpty();
+  void swapTiles(const Point& p, const Point& q);
+  bool moveTile(Direction direction);
 
-  // Point findEmpty() {
-  //   for (int i{}; i < gridSize; ++i) {
-  //     for (int j{}; j < gridSize; ++j) {
-  //     }
-  //   }
-  // }
-  friend std::ostream& operator<<(std::ostream& out, const Board& b);  //
+  friend std::ostream& operator<<(std::ostream& out, const Board& b);
 };
 
 #endif  // BOARD_H_

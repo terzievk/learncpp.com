@@ -10,7 +10,7 @@ class Point {
  public:
   Point(size_t x, size_t y) : x{x}, y{y} {}
 
-  Point getAdjacentPoint(Direction::Type direction);
+  Point getAdjacentPoint(Direction direction);
 
   size_t getX() const { return x; }
   size_t getY() const { return y; }

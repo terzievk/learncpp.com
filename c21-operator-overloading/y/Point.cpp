@@ -5,8 +5,8 @@
 
 #include "Direction.h"
 
-Point Point::getAdjacentPoint(Direction::Type direction) {
-  switch (direction) {
+Point Point::getAdjacentPoint(Direction direction) {
+  switch (direction.getDirection()) {
     case Direction::up:
       return Point{x - 1, y};
     case Direction::down:
