@@ -1,5 +1,7 @@
 #include "Board.h"
 
+#include "Direction.h"
+
 Board::Board() {
   int max{gridSize * gridSize};
   // puzzle starts with Tile 1
@@ -59,4 +61,29 @@ bool Board::moveTile(Direction direction) {
   }
 
   return false;
+}
+
+void Board::randomize() {
+  int someBigNumber{1000};
+  for (int i{}; i < someBigNumber; ++i) {
+    Point empty{findEmpty()};
+
+    Point adj{empty.getAdjacentPoint(Direction::getRandom())};
+
+    if (isValidPoint(adj)) {
+      swapTiles(empty, adj);
+    }
+  }
+}
+
+bool Board::operator==(const Board& b) {
+  for (auto i{0uz}; i < gridSize; ++i) {
+    for (auto j{0uz}; j < gridSize; ++j) {
+      if (tiles[i][j].getNum() != b.tiles[i][j].getNum()) {
+        return false;
+      }
+    }
+  }
+
+  return true;
 }

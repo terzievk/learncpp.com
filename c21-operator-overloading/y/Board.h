@@ -3,6 +3,7 @@
 
 #include <cassert>
 #include <iostream>
+#include <ratio>
 
 #include "Point.h"
 #include "Tile.h"
@@ -20,6 +21,11 @@ class Board {
   Point findEmpty();
   void swapTiles(const Point& p, const Point& q);
   bool moveTile(Direction direction);
+
+  void randomize();
+  bool operator==(const Board& b);
+
+  bool playerWon() { return this->operator==(Board{}); }
 
   friend std::ostream& operator<<(std::ostream& out, const Board& b);
 };

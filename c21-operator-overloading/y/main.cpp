@@ -7,21 +7,12 @@
 #include "Tile.h"
 #include "UserInput.h"
 
-void testStep2();
-void testStep3();
-void testStep4();
-void testStep5();
-void testStep6();
-void testStep7();
-
-void testStep7() {
+int main() {
   Board board{};
-  std::cout << board;
 
-  for (int i{}; i < 4; ++i) {
-    std::cout << "Generating random direction... " << Direction::getRandom()
-              << '\n';
-  }
+  board.randomize();
+
+  std::cout << board;
 
   while (true) {
     char command{UserInput::getCommand()};
@@ -35,11 +26,14 @@ void testStep7() {
 
     if (board.moveTile(direction)) {
       std::cout << board;
+
+      if (board.playerWon()) {
+        std::cout << "\n\nYou won!\n\n";
+        break;
+      }
     }
   }
 }
-
-int main() { testStep7(); }
 
 void testStep2() {
   Tile tile1{10};
@@ -114,4 +108,29 @@ void testStep6() {
   std::cout << (Point{1, 1} != Point{2, 1}) << '\n';
   std::cout << (Point{1, 1} != Point{1, 2}) << '\n';
   std::cout << !(Point{1, 1} != Point{1, 1}) << '\n';
+}
+
+void testStep7() {
+  Board board{};
+  std::cout << board;
+
+  for (int i{}; i < 4; ++i) {
+    std::cout << "Generating random direction... " << Direction::getRandom()
+              << '\n';
+  }
+
+  while (true) {
+    char command{UserInput::getCommand()};
+
+    if (command == 'q') {
+      std::cout << "Valid command: q\n\nBye!\n\n";
+      break;
+    }
+
+    Direction direction{UserInput::commandToDirection(command)};
+
+    if (board.moveTile(direction)) {
+      std::cout << board;
+    }
+  }
 }
