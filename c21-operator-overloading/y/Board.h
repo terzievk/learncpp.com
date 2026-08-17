@@ -1,9 +1,8 @@
 #ifndef BOARD_H_
 #define BOARD_H_
 
-#include <cassert>
+#include <array>
 #include <iostream>
-#include <ratio>
 
 #include "Point.h"
 #include "Tile.h"
@@ -17,15 +16,15 @@ class Board {
  public:
   Board();
 
-  bool isValidPoint(const Point& p);
-  Point findEmpty();
+  bool isValidPoint(const Point& p) const;
+  Point findEmpty() const;
   void swapTiles(const Point& p, const Point& q);
   bool moveTile(Direction direction);
 
   void randomize();
-  bool operator==(const Board& b);
+  bool operator==(const Board& b) const;
 
-  bool playerWon() { return this->operator==(Board{}); }
+  bool playerWon() const { return this->operator==(Board{}); }
 
   friend std::ostream& operator<<(std::ostream& out, const Board& b);
 };

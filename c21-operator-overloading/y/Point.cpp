@@ -6,7 +6,7 @@
 
 #include "Direction.h"
 
-Point Point::getAdjacentPoint(Direction direction) {
+Point Point::getAdjacentPoint(Direction direction) const {
   switch (direction.getDirection()) {
     case Direction::up:
       return Point{x - 1, y};

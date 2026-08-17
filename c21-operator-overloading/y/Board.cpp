@@ -31,13 +31,13 @@ std::ostream& operator<<(std::ostream& out, const Board& b) {
   return out;
 }
 
-bool Board::isValidPoint(const Point& p) {
+bool Board::isValidPoint(const Point& p) const {
   size_t x{p.getX()};
   size_t y{p.getY()};
   return x < gridSize && y < gridSize;
 }
 
-Point Board::findEmpty() {
+Point Board::findEmpty() const {
   for (auto i{0uz}; i < gridSize; ++i) {
     for (auto j{0uz}; j < gridSize; ++j) {
       if (tiles[i][j].isEmpty()) {
@@ -77,7 +77,7 @@ void Board::randomize() {
   }
 }
 
-bool Board::operator==(const Board& b) {
+bool Board::operator==(const Board& b) const {
   for (auto i{0uz}; i < gridSize; ++i) {
     for (auto j{0uz}; j < gridSize; ++j) {
       if (tiles[i][j].getNum() != b.tiles[i][j].getNum()) {

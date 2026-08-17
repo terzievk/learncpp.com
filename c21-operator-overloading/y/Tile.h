@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-// tiles are in the format:
+// tiles are printed in the format:
 // _ _ a _  or  _ a b _  where a/b are single digits
 class Tile {
   int value{};

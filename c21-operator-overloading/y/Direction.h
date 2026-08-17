@@ -1,6 +1,7 @@
 #ifndef DIRECTION_H_
 #define DIRECTION_H_
 
+#include <array>
 #include <iostream>
 #include <string_view>
 
@@ -9,11 +10,13 @@ class Direction {
   enum Type { up, down, left, right, maxDirections };
 
   static constexpr std::array allDirections{up, down, left, right};
+
   static_assert(allDirections.size() == maxDirections);
 
   static constexpr std::array directions{
       std::string_view{"up"}, std::string_view{"down"},
       std::string_view{"left"}, std::string_view{"right"}};
+
   static_assert(directions.size() == maxDirections);
 
  private:
@@ -22,7 +25,7 @@ class Direction {
  public:
   Direction(Type direction) : direction{direction} {}
 
-  Direction operator-();
+  Direction operator-() const;
 
   Direction::Type getDirection() const { return direction; }
 

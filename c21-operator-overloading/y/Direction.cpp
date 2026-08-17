@@ -5,7 +5,7 @@
 
 #include "Random.h"
 
-Direction Direction::operator-() {
+Direction Direction::operator-() const {
   switch (this->direction) {
     case up:
       return Direction{down};
