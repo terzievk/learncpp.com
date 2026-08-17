@@ -20,7 +20,7 @@ Tracking my progress and doing all the problems.
 
 ## Project:
 ```
- - 21.y: 15 puzzle game (main.cpp)
+ - 21.y: 15 puzzle game               (main.cpp)
 ```
 
 
