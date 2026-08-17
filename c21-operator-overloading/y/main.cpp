@@ -1,5 +1,7 @@
 #include <array>
+#include <cstdlib>  // for std::exit
 #include <iostream>
+#include <limits>  // for std::numeric_limits
 
 // tiles are in the format:
 // _ _ a _  or  _ a b _  where a/b are single digits
@@ -27,10 +29,15 @@ class Board {
   friend std::ostream& operator<<(std::ostream& out, const Board& b);
 };
 
+namespace UserInput {
+  char getCommand();
+}  // namespace UserInput
+
 void testStep2();
 void testStep3();
+void testStep4();
 
-int main() { return 0; }
+int main() {}
 
 void testStep2() {
   Tile tile1{10};
@@ -52,6 +59,22 @@ void testStep2() {
 void testStep3() {
   Board board{};
   std::cout << board;
+}
+
+void testStep4() {
+  Board board{};
+  std::cout << board;
+
+  while (true) {
+    char command{UserInput::getCommand()};
+
+    std::cout << "Valid command: " << command << '\n';
+
+    if (command == 'q') {
+      std::cout << "\n\nBye!\n\n";
+      break;
+    }
+  }
 }
 
 std::ostream& operator<<(std::ostream& out, const Tile& tile) {
@@ -94,3 +117,50 @@ std::ostream& operator<<(std::ostream& out, const Board& b) {
   }
   return out;
 }
+
+namespace UserInput {
+  void ignoreLine() {
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+  }
+
+  // returns true if extraction failed, false otherwise
+  bool clearFailedExtraction() {
+    if (!std::cin) {
+      if (std::cin.eof()) {
+        std::exit(0);  // Shut down the program now
+      }
+
+      std::cin.clear();  // Put us back in 'normal' operation mode
+      ignoreLine();      // And remove the bad input
+
+      return true;
+    }
+
+    return false;
+  }
+
+  // hard-coded commands for now
+  char getCommand() {
+    while (true) {
+      // go with h, j, k, l instread of a, w, s, d
+      std::cout << "Enter one of the following: h, j, k, l, q: ";
+      char command{};
+      std::cin >> command;
+
+      ignoreLine();  // remove any extraneous input regardless
+
+      // Check whether the user entered meaningful input
+      switch (command) {
+        case 'h':
+        case 'j':
+        case 'k':
+        case 'l':
+        case 'q':
+          return command;
+        default:
+          continue;
+      }
+    }
+  }
+
+}  // namespace UserInput
