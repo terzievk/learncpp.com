@@ -12,6 +12,9 @@ class Point {
 
   Point getAdjacentPoint(Direction::Type direction);
 
+  size_t getX() const { return x; }
+  size_t getY() const { return y; }
+
   bool operator==(const Point& p) const { return x == p.x && y == p.y; }
   bool operator!=(const Point& p) const { return x != p.x || y != p.y; }
 };

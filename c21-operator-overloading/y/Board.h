@@ -3,6 +3,7 @@
 
 #include <iostream>
 
+#include "Point.h"
 #include "Tile.h"
 
 class Board {
@@ -14,7 +15,19 @@ class Board {
  public:
   Board();
 
-  friend std::ostream& operator<<(std::ostream& out, const Board& b);
+  bool isValidPoint(const Point& p) {
+    size_t x{p.getX()};
+    size_t y{p.getY()};
+    return x < gridSize && y < gridSize;
+  }
+
+  // Point findEmpty() {
+  //   for (int i{}; i < gridSize; ++i) {
+  //     for (int j{}; j < gridSize; ++j) {
+  //     }
+  //   }
+  // }
+  friend std::ostream& operator<<(std::ostream& out, const Board& b);  //
 };
 
 #endif  // BOARD_H_
