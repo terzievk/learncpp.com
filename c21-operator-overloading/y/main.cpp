@@ -3,38 +3,9 @@
 
 #include "Board.h"
 #include "Direction.h"
+#include "Point.h"
 #include "Tile.h"
 #include "UserInput.h"
-
-class Point {
-  size_t x{};
-  size_t y{};
-
- public:
-  Point(size_t x, size_t y) : x{x}, y{y} {}
-
-  Point getAdjacentPoint(Direction::Type direction);
-
-  bool operator==(const Point& p) const { return x == p.x && y == p.y; }
-  bool operator!=(const Point& p) const { return x != p.x || y != p.y; }
-};
-
-Point Point::getAdjacentPoint(Direction::Type direction) {
-  // assume the given "weird" orientation of the x and y axes
-  switch (direction) {
-    case Direction::up:
-      return Point{x, y - 1};
-    case Direction::down:
-      return Point{x, y + 1};
-    case Direction::left:
-      return Point{x - 1, y};
-    case Direction::right:
-      return Point{x + 1, y};
-    default:
-      assert("getAdjacentPoint invalid direction");
-      exit(1);
-  }
-}
 
 void testStep2();
 void testStep3();
