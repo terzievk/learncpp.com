@@ -1,6 +1,5 @@
 #include "Direction.h"
 
-#include <cassert>
 #include <utility>
 
 #include "Random.h"

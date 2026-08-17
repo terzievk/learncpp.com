@@ -1,7 +1,5 @@
 #include "Point.h"
 
-#include <cassert>
-#include <cstdlib>
 #include <utility>
 
 #include "Direction.h"
