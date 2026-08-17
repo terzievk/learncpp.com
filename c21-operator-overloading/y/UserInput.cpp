@@ -30,7 +30,8 @@ namespace UserInput {
   char getCommand() {
     while (true) {
       // go with h, j, k, l instread of a, w, s, d
-      std::cout << "Enter one of the following: h, j, k, l, q: ";
+      std::cout
+          << "Enter one of the following: h, j, k, l(or a, w, s, d) and  q: ";
       char command{};
       std::cin >> command;
 
@@ -42,6 +43,10 @@ namespace UserInput {
         case 'j':
         case 'k':
         case 'l':
+        case 'a':
+        case 'w':
+        case 's':
+        case 'd':
         case 'q':
           return command;
         default:
@@ -52,15 +57,20 @@ namespace UserInput {
 
   Direction commandToDirection(char command) {
     assert(command == 'h' || command == 'j' || command == 'k' ||
-           command == 'l');
+           command == 'l' || command == 'a' || command == 'w' ||
+           command == 's' || command == 'd');
     switch (command) {
       case 'h':
+      case 'a':
         return Direction{Direction::Type::left};
       case 'j':
+      case 's':
         return Direction{Direction::Type::down};
       case 'k':
+      case 'w':
         return Direction{Direction::Type::up};
       case 'l':
+      case 'd':
         return Direction{Direction::Type::right};
       default:
         exit(1);
