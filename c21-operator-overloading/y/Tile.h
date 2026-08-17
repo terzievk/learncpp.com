@@ -9,7 +9,7 @@ class Tile {
   int value{};
 
  public:
-  Tile() {}
+  Tile() = default;
   explicit Tile(int value) : value{value} {}
   int getNum() const { return value; }
   bool isEmpty() const { return value == 0; }

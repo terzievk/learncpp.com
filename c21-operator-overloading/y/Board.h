@@ -2,6 +2,7 @@
 #define BOARD_H_
 
 #include <array>
+#include <cstddef>
 #include <iostream>
 
 #include "Point.h"
