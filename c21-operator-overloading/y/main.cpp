@@ -67,34 +67,41 @@ class Direction {
   friend std::ostream& operator<<(std::ostream& out, const Direction& d);
 };
 
+class Point {
+  size_t x{};
+  size_t y{};
+
+ public:
+  Point(size_t x, size_t y) : x{x}, y{y} {}
+
+  Point getAdjacentPoint(Direction::Type direction);
+
+  bool operator==(const Point& p) const { return x == p.x && y == p.y; }
+  bool operator!=(const Point& p) const { return x != p.x || y != p.y; }
+};
+
 void testStep2();
 void testStep3();
 void testStep4();
 void testStep5();
+void testStep6();
 
-void testStep5() {
-  Board board{};
-  std::cout << board;
-
-  for (int i{}; i < 4; ++i) {
-    std::cout << "Generating random direction... " << Direction::getRandom()
-              << '\n';
-  }
-
-  while (true) {
-    char command{UserInput::getCommand()};
-
-    if (command == 'q') {
-      std::cout << "Valid command: q\n\nBye!\n\n";
-      break;
-    }
-
-    std::cout << "Valid command: "
-              << Direction{UserInput::commandToDirection(command)} << '\n';
-  }
+void testStep6() {
+  std::cout << std::boolalpha;
+  std::cout << (Point{1, 1}.getAdjacentPoint(Direction::up) == Point{1, 0})
+            << '\n';
+  std::cout << (Point{1, 1}.getAdjacentPoint(Direction::down) == Point{1, 2})
+            << '\n';
+  std::cout << (Point{1, 1}.getAdjacentPoint(Direction::left) == Point{0, 1})
+            << '\n';
+  std::cout << (Point{1, 1}.getAdjacentPoint(Direction::right) == Point{2, 1})
+            << '\n';
+  std::cout << (Point{1, 1} != Point{2, 1}) << '\n';
+  std::cout << (Point{1, 1} != Point{1, 2}) << '\n';
+  std::cout << !(Point{1, 1} != Point{1, 1}) << '\n';
 }
 
-int main() { testStep5(); }
+int main() { testStep6(); }
 
 void testStep2() {
   Tile tile1{10};
@@ -131,6 +138,28 @@ void testStep4() {
       std::cout << "\n\nBye!\n\n";
       break;
     }
+  }
+}
+
+void testStep5() {
+  Board board{};
+  std::cout << board;
+
+  for (int i{}; i < 4; ++i) {
+    std::cout << "Generating random direction... " << Direction::getRandom()
+              << '\n';
+  }
+
+  while (true) {
+    char command{UserInput::getCommand()};
+
+    if (command == 'q') {
+      std::cout << "Valid command: q\n\nBye!\n\n";
+      break;
+    }
+
+    std::cout << "Valid command: "
+              << Direction{UserInput::commandToDirection(command)} << '\n';
   }
 }
 
@@ -261,4 +290,21 @@ Direction Direction::getRandom() {
 
 std::ostream& operator<<(std::ostream& out, const Direction& d) {
   return out << d.directions[d.direction];
+}
+
+Point Point::getAdjacentPoint(Direction::Type direction) {
+  // assume the given "weird" orientation of the x and y axes
+  switch (direction) {
+    case Direction::up:
+      return Point{x, y - 1};
+    case Direction::down:
+      return Point{x, y + 1};
+    case Direction::left:
+      return Point{x - 1, y};
+    case Direction::right:
+      return Point{x + 1, y};
+    default:
+      assert("getAdjacentPoint invalid direction");
+      exit(1);
+  }
 }
