@@ -2,8 +2,7 @@
 #define DIRECTION_H_
 
 #include <iostream>
-
-using namespace std::string_view_literals;
+#include <string_view>
 
 class Direction {
  public:
@@ -12,7 +11,9 @@ class Direction {
   static constexpr std::array allDirections{up, down, left, right};
   static_assert(allDirections.size() == maxDirections);
 
-  static constexpr std::array directions{"up"sv, "down"sv, "left"sv, "right"sv};
+  static constexpr std::array directions{
+      std::string_view{"up"}, std::string_view{"down"},
+      std::string_view{"left"}, std::string_view{"right"}};
   static_assert(directions.size() == maxDirections);
 
  private:

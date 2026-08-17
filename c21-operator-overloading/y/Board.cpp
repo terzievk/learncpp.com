@@ -1,5 +1,7 @@
 #include "Board.h"
 
+#include <utility>
+
 #include "Direction.h"
 
 Board::Board() {
@@ -43,8 +45,7 @@ Point Board::findEmpty() {
       }
     }
   }
-  assert("There must be an empty Tile");
-  exit(1);
+  std::unreachable();
 }
 
 void Board::swapTiles(const Point& p, const Point& q) {

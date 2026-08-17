@@ -2,6 +2,7 @@
 
 #include <cassert>
 #include <cstdlib>
+#include <utility>
 
 #include "Direction.h"
 
@@ -16,7 +17,6 @@ Point Point::getAdjacentPoint(Direction direction) {
     case Direction::right:
       return Point{x, y + 1};
     default:
-      assert("getAdjacentPoint invalid direction");
-      exit(1);
+      std::unreachable();
   }
 }

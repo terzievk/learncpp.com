@@ -1,6 +1,7 @@
 #include "Direction.h"
 
 #include <cassert>
+#include <utility>
 
 #include "Random.h"
 
@@ -15,8 +16,7 @@ Direction Direction::operator-() {
     case right:
       return Direction{left};
     default:
-      assert("Invalid direction");
-      exit(1);
+      std::unreachable();
   }
 }
 
