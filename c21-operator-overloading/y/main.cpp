@@ -28,13 +28,9 @@ class Board {
 };
 
 void testStep2();
+void testStep3();
 
-int main() {
-  Board board{};
-  std::cout << board;
-
-  return 0;
-}
+int main() { return 0; }
 
 void testStep2() {
   Tile tile1{10};
@@ -51,6 +47,11 @@ void testStep2() {
 
   std::cout << "Tile 2 has number: " << tile2.getNum()
             << "\nTile 4 has number: " << tile4.getNum() << '\n';
+}
+
+void testStep3() {
+  Board board{};
+  std::cout << board;
 }
 
 std::ostream& operator<<(std::ostream& out, const Tile& tile) {
