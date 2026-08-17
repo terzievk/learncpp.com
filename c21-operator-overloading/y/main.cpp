@@ -1,7 +1,12 @@
 #include <array>
+#include <cassert>
+#include <concepts>
 #include <cstdlib>  // for std::exit
 #include <iostream>
 #include <limits>  // for std::numeric_limits
+#include <string_view>
+
+#include "Random.h"
 
 // tiles are in the format:
 // _ _ a _  or  _ a b _  where a/b are single digits
@@ -29,15 +34,67 @@ class Board {
   friend std::ostream& operator<<(std::ostream& out, const Board& b);
 };
 
+class Direction;
+
 namespace UserInput {
   char getCommand();
+
+  Direction commandToDirection(char command);
 }  // namespace UserInput
+
+using namespace std::string_view_literals;
+
+class Direction {
+ public:
+  enum Type { up, down, left, right, maxDirections };
+
+  static constexpr std::array allDirections{up, down, left, right};
+  static_assert(allDirections.size() == maxDirections);
+
+  static constexpr std::array directions{"up"sv, "down"sv, "left"sv, "right"sv};
+  static_assert(directions.size() == maxDirections);
+
+ private:
+  Type direction{};
+
+ public:
+  Direction(Type direction) : direction{direction} {}
+
+  Direction operator-();
+
+  static Direction getRandom();
+
+  friend std::ostream& operator<<(std::ostream& out, const Direction& d);
+};
 
 void testStep2();
 void testStep3();
 void testStep4();
+void testStep5();
 
-int main() {}
+void testStep5() {
+  Board board{};
+  std::cout << board;
+
+  for (int i{}; i < 4; ++i) {
+    std::cout << "Generating random direction... " << Direction::getRandom()
+              << '\n';
+  }
+
+  while (true) {
+    char command{UserInput::getCommand()};
+
+    if (command == 'q') {
+      std::cout << "Valid command: q\n\nBye!\n\n";
+      break;
+    }
+
+    std::cout << "Valid command: "
+              << Direction{UserInput::commandToDirection(command)} << '\n';
+  }
+}
+
+int main() { testStep5(); }
 
 void testStep2() {
   Tile tile1{10};
@@ -163,4 +220,45 @@ namespace UserInput {
     }
   }
 
+  Direction commandToDirection(char command) {
+    assert(command == 'h' || command == 'j' || command == 'k' ||
+           command == 'l');
+    switch (command) {
+      case 'h':
+        return Direction{Direction::Type::left};
+      case 'j':
+        return Direction{Direction::Type::down};
+      case 'k':
+        return Direction{Direction::Type::up};
+      case 'l':
+        return Direction{Direction::Type::right};
+      default:
+        exit(1);
+    }
+  }
 }  // namespace UserInput
+
+Direction Direction::operator-() {
+  switch (this->direction) {
+    case up:
+      return Direction{down};
+    case down:
+      return Direction{up};
+    case left:
+      return Direction{right};
+    case right:
+      return Direction{left};
+    default:
+      assert("Invalid direction");
+      exit(1);
+  }
+}
+
+Direction Direction::getRandom() {
+  return allDirections[Random::get(0uz,
+                                   static_cast<size_t>(maxDirections) - 1)];
+}
+
+std::ostream& operator<<(std::ostream& out, const Direction& d) {
+  return out << d.directions[d.direction];
+}
