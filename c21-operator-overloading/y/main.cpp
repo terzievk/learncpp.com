@@ -18,7 +18,7 @@ int main() {
     char command{UserInput::getCommand()};
 
     if (command == 'q') {
-      std::cout << "Valid command: q\n\nBye!\n\n";
+      std::cout << "\n\nBye!\n\n";
       break;
     }
 
