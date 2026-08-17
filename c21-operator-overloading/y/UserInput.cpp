@@ -35,7 +35,11 @@ namespace UserInput {
       char command{};
       std::cin >> command;
 
-      ignoreLine();  // remove any extraneous input regardless
+      if (clearFailedExtraction()) {
+        continue;
+      }
+
+      ignoreLine();  // remove any extraneous input
 
       // Check whether the user entered meaningful input
       switch (command) {
