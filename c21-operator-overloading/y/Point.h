@@ -1,7 +1,9 @@
 #ifndef POINT_H_
 #define POINT_H_
 
-#include "Direction.h"
+#include <cstddef>
+
+class Direction;
 
 class Point {
   size_t x{};
