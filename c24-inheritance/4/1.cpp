@@ -23,16 +23,15 @@ class Apple : public Fruit {
       : Fruit{name, color}, fiber{fiber} {}
 
   double getFiber() const { return fiber; }
-
-  friend std::ostream& operator<<(std::ostream& out, const Apple& apple);
 };
 
 class Banana : public Fruit {
  public:
   Banana(std::string_view name, std::string_view color) : Fruit{name, color} {}
-
-  friend std::ostream& operator<<(std::ostream& out, const Banana& banana);
 };
+
+std::ostream& operator<<(std::ostream& out, const Apple& apple);
+std::ostream& operator<<(std::ostream& out, const Banana& banana);
 
 int main() {
   const Apple a{"Red delicious", "red", 4.2};
